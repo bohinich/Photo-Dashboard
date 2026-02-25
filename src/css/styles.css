@@ -1,18 +1,105 @@
-/**
-  |============================
-  | include css partials with
-  | default @import url()
-  |============================
-*/
-/* Common styles */
-@import url('./reset.css');
-@import url('./base.css');
-@import url('./container.css');
-@import url('./animations.css');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Sections style */
-@import url('./header.css');
-@import url('./vite-promo.css');
-@import url('./badges.css');
-@import url('./back-link.css');
-@import url('./footer.css');
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #000;
+    color: #fff;
+}
+
+header {
+    padding: 40px 60px;
+    border-bottom: 1px solid #555;
+}
+
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+}
+
+nav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+.page-title {
+    font-size: 64px;
+    font-weight: 300;
+    margin-bottom: 30px;
+}
+
+.filters {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-active {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.filter {
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 14px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    transition: 0.3s;
+}
+
+.filter:hover,
+.filter-active {
+    color: #fff;
+}
+
+.gallery {
+    padding: 60px;
+    column-count: 4;
+    column-gap: 30px;
+}
+
+.gallery-card {
+    break-inside: avoid;
+    margin-bottom: 30px;
+    background-color: #111;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 0.4s;
+}
+
+.gallery-card img {
+    width: 100%;
+    display: block;
+    transition: 0.4s;
+}
+
+.gallery-card:hover img {
+    transform: scale(1.05);
+}

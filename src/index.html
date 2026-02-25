@@ -1,23 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vanilla App Template</title>
-    <link rel="stylesheet" href="./css/styles.css" />
-  </head>
-  <body>
-    <load src="./partials/header.html" icon-path="img/sprite.svg#logo" />
 
-    <main>
-      <!-- Loads the specified .html file -->
-      <load src="./partials/vite-promo.html" />
-      <load src="./partials/badges.html" />
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Photo Dashboard</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
 
-    <load src="./partials/footer.html" />
+<body>
+  <header>
+    <div class="header-top">
+      <div class="logo">PhotoDash</div>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">Gallerry</a>
+        <a href="#">Favorites</a>
+      </nav>
+    </div>
 
-    <script type="module" src="./main.js"></script>
-  </body>
+    <div class="header-content">
+      <h1 class="page-title">STANDARD GALLERY</h1>
+
+      <div class="filters">
+        <button class="filter-active">ALL</button>
+        <button class="filter">APPROVED</button>
+        <button class="filter">REJECTED</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="gallery" id="gallery"></section>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
 </html>
