@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Photo Dashboard</title>
   <script type="module" crossorigin src="/vanilla-app-template/index.js"></script>
-  <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/index-D93w8MD3.css">
+  <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/index-KCr7kaA3.css">
 </head>
 
 <body>
@@ -39,13 +39,21 @@
         <p class="hero-subtitle">Search high-quality images instantly</p>
 
         <form class="search-form">
-          <input type="text" placeholder="Search images..."/>
+          <input type="text" name="query" placeholder="Search images..."/>
           <button type="submit">Search</button>
         </form>
       </div>
     </section>
 
-    <section class="gallery" id="gallery"></section>
+    <section class="results">
+      <div class="container">
+        <ul class="gallery" id="gallery"></ul>
+
+        <button class="load-more hidden">Load More</button>
+
+        <div class="loader hidden"></div>
+      </div>
+    </section>
   </main>
 
 </body>
