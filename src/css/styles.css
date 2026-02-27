@@ -141,7 +141,7 @@ nav a:hover {
 .search-form button {
     padding: 14px 24px;
     font-size: 16px;
-    background: #ffae00;
+    background: #fff;
     border: none;
     color: #000;
     font-weight: 600;
@@ -150,5 +150,5 @@ nav a:hover {
 }
 
 .search-form button:hover {
-    background: #ffca55;
+    background: #aaa;
 }
