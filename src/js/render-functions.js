@@ -1,37 +1,37 @@
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
+
+let lightbox = null;
+
+export function clearGallery(gallery) {
+    gallery.innerHTML = "";
+}
+
 export function createGalleryMarkup(images) {
     return images
         .map(
-            ({
-                webformatURL,
-                largeImageURL,
-                tags,
-                likes,
-                views,
-                comments,
-                downloads,
-            }) => {
-                return `
-                    <li class="gallery-item">
-                        <a href="${largeImageURL}" class="gallery-link">
-                            <img src="${webformatURL}" alt="${tags}" loading="lazy" class="gallery-image"/>
-                        </a>
-
-                        <div class="info">
-                            <p><b>Likes</b> ${likes}</p>
-                            <p><b>Views</b> ${views}</p>
-                            <p><b>Comments</b> ${comments}</p>
-                            <p><b>Downloads</b> ${downloads}</p>
-                        </div>
-                    </li>`
-            }
+            image => `
+            <a href="${image.largeImageURL}" class="gallery-item">
+                <img 
+                    src="${image.webformatURL}" 
+                    alt="${image.tags}" 
+                    loading="lazy"
+                />
+            </a>
+            `
         )
-        .join("")
+        .join("");
 }
 
-export function appendImages(galleryEl, markup) {
-    galleryEl.insertAdjacentHTML("beforeend", markup)
-}
+export function appendImages(gallery, markup) {
+    gallery.insertAdjacentHTML("beforeend", markup)
 
-export function clearGallery(galleryEl) {
-    galleryEl.innerHTML = ""
+    if (!lightbox) {
+        lightbox = new SimpleLightbox(".gallery a", {
+            captionsData: "alt",
+            captionDelay: 250,
+        });
+    } else {
+        lightbox.refresh();
+    }
 }

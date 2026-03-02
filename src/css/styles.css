@@ -152,3 +152,54 @@ nav a:hover {
 .search-form button:hover {
     background: #aaa;
 }
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+.gallery-item {
+    display: block;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: scale(1.03);
+}
+
+.gallery img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.hidden {
+    display: none;
+}
+
+.load-more {
+    display: block;
+    margin: 40px auto;
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.load-more:hover {
+    background: #aaa;
+    transform: translateY(-2px);
+}
+
+.load-more:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

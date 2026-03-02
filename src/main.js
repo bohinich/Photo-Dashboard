@@ -1,7 +1,5 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
-import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
 import { getImagesByQuery } from "./js/pixabay-api";
 import { createGalleryMarkup, appendImages, clearGallery, } from "./js/render-functions";
 
@@ -15,12 +13,14 @@ let currentPage = 1;
 const perPage = 15;
 let totalHits = 0;
 
+loadMoreBtn.classList.add("hidden");
+
 form.addEventListener("submit", handleSubmit);
 
 async function handleSubmit(event) {
     event.preventDefault();
 
-    const query = event.target.elements.query.value.trim();
+    const query = event.target.elements.searchQuery.value.trim();
 
     if (!query) {
         iziToast.warning({
@@ -55,7 +55,7 @@ async function handleSubmit(event) {
         const markup = createGalleryMarkup(data.hits);
         appendImages(gallery, markup);
 
-        checkEndOfCollection();
+        checkLoadMoreVisibility();
     } catch (error) {
         iziToast.warning({
             message: "Something went wrong. Please try again",
@@ -72,21 +72,17 @@ async function handleLoadMore() {
     currentPage += 1;
 
     try {
-        showLoader
+        showLoader();
+        loadMoreBtn.disabled = true;
 
         const data = await getImagesByQuery(currentQuery, currentPage, perPage);
 
         const markup = createGalleryMarkup(data.hits);
         appendImages(gallery, markup);
 
-        checkEndOfCollection();
+        smoothScroll();
+        checkLoadMoreVisibility();
 
-        const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
-
-        window.scrollBy({
-            top: cardHeight * 2,
-            behavior: "smooth",
-        });
     } catch (error) {
         iziToast.warning({
             message: "Error loading more images",
@@ -94,10 +90,11 @@ async function handleLoadMore() {
         });
     } finally {
         hideLoader();
+        loadMoreBtn.disabled = false;
     }
 }
 
-function checkEndOfCollection() {
+function checkLoadMoreVisibility() {
     const loadedImages = currentPage * perPage;
 
     if (loadedImages > totalHits) {
@@ -125,4 +122,14 @@ function showLoadMore() {
 
 function hideLoadMore() {
     loadMoreBtn.classList.add("hidden");
+}
+
+function smoothScroll() {
+  const { height: cardHeight } =
+    gallery.firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: "smooth",
+  });
 }
