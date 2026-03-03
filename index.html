@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vanilla-app-template/favicon.svg" />
+  <link rel="icon" type="image/svg+xml" href="/Photo-Dashboard/favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Photo Dashboard</title>
-  <script type="module" crossorigin src="/vanilla-app-template/index.js"></script>
-  <link rel="modulepreload" crossorigin href="/vanilla-app-template/assets/vendor-B5nsgUv9.js">
-  <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/vendor-DumFYO8Z.css">
-  <link rel="stylesheet" crossorigin href="/vanilla-app-template/assets/index-CHN3eOrq.css">
+  <script type="module" crossorigin src="/Photo-Dashboard/index.js"></script>
+  <link rel="modulepreload" crossorigin href="/Photo-Dashboard/assets/vendor-B5nsgUv9.js">
+  <link rel="stylesheet" crossorigin href="/Photo-Dashboard/assets/vendor-DumFYO8Z.css">
+  <link rel="stylesheet" crossorigin href="/Photo-Dashboard/assets/index-D_KIGbFi.css">
 </head>
 
 <body>
@@ -17,9 +17,9 @@
     <div class="header-top">
       <div class="logo">PhotoDash</div>
       <nav>
-        <a href="#">Home</a>
-        <a href="#">Gallerry</a>
-        <a href="#">Favorites</a>
+        <button class="nav-btn" data-view="home">Home</button>
+        <button class="nav-btn" data-view="gallery">Gallery</button>
+        <button class="nav-btn" data-view="favorites">Favorites</button>
       </nav>
     </div>
 
@@ -27,9 +27,9 @@
       <h1 class="page-title">STANDARD GALLERY</h1>
 
       <div class="filters">
-        <button class="filter-active">ALL</button>
-        <button class="filter">APPROVED</button>
-        <button class="filter">REJECTED</button>
+        <button class="filter-btn" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="approved">APPROVED</button>
+        <button class="filter-btn" data-filter="rejected">REJECTED</button>
       </div>
     </div>
   </header>
