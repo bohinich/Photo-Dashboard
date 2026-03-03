@@ -3,6 +3,10 @@ export const state = {
   page: 1,
   perPage: 15,
   totalHits: 0,
-  isLoading: false,
-  isLastPage: false,
+
+  currentView: "gallery",
+  currentFilter: "all",
+
+  images: [],
+  favorites: [],
 };

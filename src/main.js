@@ -2,6 +2,7 @@ import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import { getImagesByQuery } from "./js/pixabay-api";
 import { createGalleryMarkup, appendImages, clearGallery, } from "./js/render-functions";
+import { state } from "./js/state";
 
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
@@ -20,7 +21,7 @@ form.addEventListener("submit", handleSubmit);
 async function handleSubmit(event) {
     event.preventDefault();
 
-    const query = event.target.elements.searchQuery.value.trim();
+    const query = event.target.elements.query.value.trim();
 
     if (!query) {
         iziToast.warning({

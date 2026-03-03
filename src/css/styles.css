@@ -26,6 +26,7 @@ header {
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 2px;
+    cursor: pointer;
 }
 
 nav {
@@ -33,14 +34,17 @@ nav {
     gap: 30px;
 }
 
-nav a {
+.nav-btn {
     color: #aaa;
+    background: none;
+    border: none;
     text-decoration: none;
     font-size: 14px;
+    cursor: pointer;
     transition: 0.3s;
 }
 
-nav a:hover {
+.nav-btn:hover {
     color: #fff;
 }
 
@@ -55,16 +59,7 @@ nav a:hover {
     gap: 20px;
 }
 
-.filter-active {
-    background: none;
-    border: none;
-    font-size: 14px;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: 0.3s;
-}
-
-.filter {
+.filter-btn {
     background: none;
     border: none;
     color: #777;
@@ -74,8 +69,7 @@ nav a:hover {
     transition: 0.3s;
 }
 
-.filter:hover,
-.filter-active {
+.filter-btn:hover {
     color: #fff;
 }
 
@@ -162,7 +156,7 @@ nav a:hover {
 .gallery-item {
     display: block;
     overflow: hidden;
-    border-radius: 12px;
+    border-radius: 2px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
@@ -177,10 +171,6 @@ nav a:hover {
     object-fit: cover;
 }
 
-.hidden {
-    display: none;
-}
-
 .load-more {
     display: block;
     margin: 40px auto;
@@ -188,7 +178,7 @@ nav a:hover {
     font-size: 16px;
     font-weight: 600;
     border: none;
-    border-radius: 8px;
+    border-radius: 2px;
     background-color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -197,6 +187,10 @@ nav a:hover {
 .load-more:hover {
     background: #aaa;
     transform: translateY(-2px);
+}
+
+.hidden {
+    display: none;
 }
 
 .load-more:disabled {
