@@ -171,6 +171,46 @@ nav {
     object-fit: cover;
 }
 
+.card {
+    position: relative;
+    background: #111;
+    border: 1px solid #222;
+    overflow: hidden;
+}
+
+.card-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #000;
+    color: white;
+    font-size: 14px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.fav-btn:hover {
+    transform: scale(1.1);
+}
+
+.fav-btn.active svg {
+    fill: white;
+}
+
 .load-more {
     display: block;
     margin: 40px auto;

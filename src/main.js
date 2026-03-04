@@ -8,11 +8,8 @@ const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
 const loadMoreBtn = document.querySelector(".load-more");
 const loader = document.querySelector(".loader");
-
-let currentQuery = "";
-let currentPage = 1;
-const perPage = 15;
-let totalHits = 0;
+const navButtons = document.querySelector(".nav-btn");
+const filterButtons = document.querySelector("filter-btn");
 
 loadMoreBtn.classList.add("hidden");
 
@@ -31,9 +28,9 @@ async function handleSubmit(event) {
         return
     }
 
-    currentQuery = query;
-    currentPage = 1;
-    totalHits = 0;
+    state.query = query;
+    state.page = 1;
+    state.images = [];
 
     clearGallery(gallery);
     hideLoader();
@@ -41,9 +38,7 @@ async function handleSubmit(event) {
     try {
         showLoader();
 
-        const data = await getImagesByQuery(currentQuery, currentPage, perPage);
-
-        totalHits = data.totalHits;
+        const data = await getImagesByQuery(state.query, state.page, state.perPage);
 
         if (data.hits.length === 0) {
             iziToast.warning({
@@ -53,10 +48,12 @@ async function handleSubmit(event) {
             return
         }
 
-        const markup = createGalleryMarkup(data.hits);
-        appendImages(gallery, markup);
+        state.images = data.hits;
+        state.totalHits = data.totalHits;
 
+        renderGallery();
         checkLoadMoreVisibility();
+
     } catch (error) {
         iziToast.warning({
             message: "Something went wrong. Please try again",
@@ -70,18 +67,17 @@ async function handleSubmit(event) {
 loadMoreBtn.addEventListener("click", handleLoadMore);
 
 async function handleLoadMore() {
-    currentPage += 1;
+    state.page += 1;
 
     try {
         showLoader();
         loadMoreBtn.disabled = true;
 
-        const data = await getImagesByQuery(currentQuery, currentPage, perPage);
+        const data = await getImagesByQuery(state.query, state.page, state.perPage);
 
-        const markup = createGalleryMarkup(data.hits);
-        appendImages(gallery, markup);
+        state.images = [...state.images, ...data.hits];
 
-        smoothScroll();
+        renderGallery();
         checkLoadMoreVisibility();
 
     } catch (error) {
@@ -95,10 +91,69 @@ async function handleLoadMore() {
     }
 }
 
-function checkLoadMoreVisibility() {
-    const loadedImages = currentPage * perPage;
+function renderGallery() {
+    clearGallery(gallery);
 
-    if (loadedImages > totalHits) {
+    let imagesToRender = [...state.images];
+
+    if (state.currentView === "Favorites") {
+        imagesToRender = imagesToRender.filter(img =>
+            state.favorites.includes(img.id)
+        );
+    }
+
+    if (state.currentFilter === "APPROVED") {
+        imagesToRender = imagesToRender.filter(img => img.likes > 100)
+    }
+    
+    if (state.currentFilter === "REJECTED") {
+        imagesToRender = imagesToRender.filter(img => img.likes <= 100)
+    }
+
+    const markup = createGalleryMarkup(imagesToRender, state.favorites);
+    appendImages(gallery, markup);
+}
+
+gallery.addEventListener("click", e => {
+    if (!e.target.classList.contains("fav-btn")) return;
+
+    const id = Number(e.target.dataset.id);
+
+    if (state.favorites.includes(id)) {
+        state.favorites = state.favorites.filter(favId => favId !== id)
+    } else {
+        state.favorites.push(id);
+    }
+
+    localStorage.setItem("Favorites", JSON.stringify(state.favorites));
+
+    renderGallery()
+})
+
+navButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        navButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        state.currentView = btn.dataset.view;
+        renderGallery();
+    })
+})
+
+filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        filterButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        state.currentFilter = btn.dataset.filter;
+        renderGallery();
+    })
+})
+
+function checkLoadMoreVisibility() {
+    const loadedImages = state.page * state.perPage;
+
+    if (loadedImages > state.totalHits) {
         hideLoadMore();
         iziToast.warning({
             message: "You've reached the end of the results",
@@ -125,12 +180,10 @@ function hideLoadMore() {
     loadMoreBtn.classList.add("hidden");
 }
 
-function smoothScroll() {
-  const { height: cardHeight } =
-    gallery.firstElementChild.getBoundingClientRect();
+document.addEventListener("DOMContentLoaded", () => {
+  const saved = localStorage.getItem("favorites");
 
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: "smooth",
-  });
-}
+  if (saved) {
+    state.favorites = JSON.parse(saved);
+  }
+});
