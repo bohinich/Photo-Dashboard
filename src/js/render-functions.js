@@ -9,33 +9,55 @@ export function clearGallery(gallery) {
 
 function likeIcon() {
   return `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-      <path d="M14 9V5a3 3 0 0 0-6 0v4"/>
-      <path d="M5 9h14l-1 11H6L5 9z"/>
+    <svg 
+      width="18" 
+      height="18" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="white" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round"
+    >
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 1 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/>
     </svg>
   `;
 }
 
 function viewIcon() {
   return `
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+    <svg 
+      width="18" 
+      height="18" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="white" 
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
       <circle cx="12" cy="12" r="3"/>
     </svg>
   `;
 }
 
-function starIcon(isActive) {
+function starIcon() {
   return `
-    <svg width="20" height="20" viewBox="0 0 24 24"
-      fill="${isActive ? "white" : "none"}"
+    <svg 
+      width="20" 
+      height="20" 
+      viewBox="0 0 24 24"
+      fill="none"
       stroke="white"
-      stroke-width="2">
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <polygon points="12 2 15 9 22 9 17 14 19 22 12 18 5 22 7 14 2 9 9 9"/>
     </svg>
   `;
 }
-
 
 export function createGalleryMarkup(images, favorites) {
     return images
@@ -67,7 +89,7 @@ export function createGalleryMarkup(images, favorites) {
                     <button 
                         class="fav-btn ${isFav ? "active" : ""}" 
                         data-id="${image.id}">
-                            ${starIcon(isFav)}
+                        ${starIcon()}
                     </button>
 
                 </div>`;
@@ -76,10 +98,10 @@ export function createGalleryMarkup(images, favorites) {
 }
 
 export function appendImages(gallery, markup) {
-    gallery.insertAdjacentHTML("beforeend", markup)
+    gallery.insertAdjacentHTML("beforeend", markup);
 
     if (!lightbox) {
-        lightbox = new SimpleLightbox(".gallery a", {
+        lightbox = new SimpleLightbox(".gallery .gallery-item", {
             captionsData: "alt",
             captionDelay: 250,
         });

@@ -35,6 +35,7 @@ nav {
 }
 
 .nav-btn {
+    position: relative;
     color: #aaa;
     background: none;
     border: none;
@@ -44,7 +45,23 @@ nav {
     transition: 0.3s;
 }
 
-.nav-btn:hover {
+.nav-btn::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0;
+    height: 1px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.nav-btn:hover::after,
+.nav-btn.active::after {
+    width: 100%;
+}
+
+.nav-btn.active {
     color: #fff;
 }
 
@@ -69,33 +86,13 @@ nav {
     transition: 0.3s;
 }
 
+.filter-btn.active {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
 .filter-btn:hover {
     color: #fff;
-}
-
-.gallery {
-    padding: 60px;
-    column-count: 4;
-    column-gap: 30px;
-}
-
-.gallery-card {
-    break-inside: avoid;
-    margin-bottom: 30px;
-    background-color: #111;
-    overflow: hidden;
-    cursor: pointer;
-    transition: 0.4s;
-}
-
-.gallery-card img {
-    width: 100%;
-    display: block;
-    transition: 0.4s;
-}
-
-.gallery-card:hover img {
-    transform: scale(1.05);
 }
 
 .hero {
@@ -176,6 +173,7 @@ nav {
     background: #111;
     border: 1px solid #222;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .card-info {
@@ -191,6 +189,14 @@ nav {
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+.info-item svg {
+    transition: transform 0.2s ease;
+}
+
+.info-item:hover svg {
+    transform: scale(1.15);
 }
 
 .fav-btn {
@@ -209,6 +215,15 @@ nav {
 
 .fav-btn.active svg {
     fill: white;
+    stroke: white;
+}
+
+.fav-btn svg {
+    transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+button svg {
+    pointer-events: none;
 }
 
 .load-more {

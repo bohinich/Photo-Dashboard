@@ -1,19 +1,21 @@
 import iziToast from "izitoast";
 import "izitoast/dist/css/iziToast.min.css";
 import { getImagesByQuery } from "./js/pixabay-api";
-import { createGalleryMarkup, appendImages, clearGallery, } from "./js/render-functions";
+import { createGalleryMarkup, appendImages, clearGallery } from "./js/render-functions";
 import { state } from "./js/state";
 
 const form = document.querySelector(".search-form");
 const gallery = document.querySelector(".gallery");
 const loadMoreBtn = document.querySelector(".load-more");
 const loader = document.querySelector(".loader");
-const navButtons = document.querySelector(".nav-btn");
-const filterButtons = document.querySelector("filter-btn");
+
+const navButtons = document.querySelectorAll(".nav-btn");
+const filterButtons = document.querySelectorAll(".filter-btn");
 
 loadMoreBtn.classList.add("hidden");
 
 form.addEventListener("submit", handleSubmit);
+loadMoreBtn.addEventListener("click", handleLoadMore);
 
 async function handleSubmit(event) {
     event.preventDefault();
@@ -25,7 +27,7 @@ async function handleSubmit(event) {
             message: "Please enter a search query",
             position: "topRight",
         });
-        return
+        return;
     }
 
     state.query = query;
@@ -33,11 +35,9 @@ async function handleSubmit(event) {
     state.images = [];
 
     clearGallery(gallery);
-    hideLoader();
+    showLoader();
 
     try {
-        showLoader();
-
         const data = await getImagesByQuery(state.query, state.page, state.perPage);
 
         if (data.hits.length === 0) {
@@ -45,7 +45,7 @@ async function handleSubmit(event) {
                 message: "No images found",
                 position: "topRight",
             });
-            return
+            return;
         }
 
         state.images = data.hits;
@@ -54,17 +54,15 @@ async function handleSubmit(event) {
         renderGallery();
         checkLoadMoreVisibility();
 
-    } catch (error) {
+    } catch {
         iziToast.warning({
             message: "Something went wrong. Please try again",
             position: "topRight",
         });
     } finally {
-        hideLoader()
+        hideLoader();
     }
 }
-
-loadMoreBtn.addEventListener("click", handleLoadMore);
 
 async function handleLoadMore() {
     state.page += 1;
@@ -80,7 +78,7 @@ async function handleLoadMore() {
         renderGallery();
         checkLoadMoreVisibility();
 
-    } catch (error) {
+    } catch {
         iziToast.warning({
             message: "Error loading more images",
             position: "topRight",
@@ -96,18 +94,18 @@ function renderGallery() {
 
     let imagesToRender = [...state.images];
 
-    if (state.currentView === "Favorites") {
+    if (state.currentView === "favorites") {
         imagesToRender = imagesToRender.filter(img =>
             state.favorites.includes(img.id)
         );
     }
 
-    if (state.currentFilter === "APPROVED") {
-        imagesToRender = imagesToRender.filter(img => img.likes > 100)
+    if (state.currentFilter === "approved") {
+        imagesToRender = imagesToRender.filter(img => img.likes > 100);
     }
-    
-    if (state.currentFilter === "REJECTED") {
-        imagesToRender = imagesToRender.filter(img => img.likes <= 100)
+
+    if (state.currentFilter === "rejected") {
+        imagesToRender = imagesToRender.filter(img => img.likes <= 100);
     }
 
     const markup = createGalleryMarkup(imagesToRender, state.favorites);
@@ -115,20 +113,21 @@ function renderGallery() {
 }
 
 gallery.addEventListener("click", e => {
-    if (!e.target.classList.contains("fav-btn")) return;
+    const btn = e.target.closest(".fav-btn");
+    if (!btn) return;
 
-    const id = Number(e.target.dataset.id);
+    const id = Number(btn.dataset.id);
 
     if (state.favorites.includes(id)) {
-        state.favorites = state.favorites.filter(favId => favId !== id)
+        state.favorites = state.favorites.filter(favId => favId !== id);
     } else {
         state.favorites.push(id);
     }
 
-    localStorage.setItem("Favorites", JSON.stringify(state.favorites));
+    localStorage.setItem("favorites", JSON.stringify(state.favorites));
 
-    renderGallery()
-})
+    renderGallery();
+});
 
 navButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -137,8 +136,8 @@ navButtons.forEach(btn => {
 
         state.currentView = btn.dataset.view;
         renderGallery();
-    })
-})
+    });
+});
 
 filterButtons.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -147,13 +146,13 @@ filterButtons.forEach(btn => {
 
         state.currentFilter = btn.dataset.filter;
         renderGallery();
-    })
-})
+    });
+});
 
 function checkLoadMoreVisibility() {
     const loadedImages = state.page * state.perPage;
 
-    if (loadedImages > state.totalHits) {
+    if (loadedImages >= state.totalHits) {
         hideLoadMore();
         iziToast.warning({
             message: "You've reached the end of the results",
@@ -181,9 +180,8 @@ function hideLoadMore() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const saved = localStorage.getItem("favorites");
-
-  if (saved) {
-    state.favorites = JSON.parse(saved);
-  }
+    const saved = localStorage.getItem("favorites");
+    if (saved) {
+        state.favorites = JSON.parse(saved);
+    }
 });
